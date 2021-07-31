@@ -31,7 +31,7 @@ pushcalib = digitalRead(2); // push button status
 if (pushcalib == HIGH) {
 // If the push button is not pushed, do the normal sensing routine:
 for (int i=0; i < n; i++){
-sensor += analogRead(A1); // read the input on analog pin 1 (turbidity sensor analog output)
+sensor += analogRead(A0); // read the input on analog pin 1 (turbidity sensor analog output)
 delay(10);
 }
 sensorValue = sensor / n; // average the n values
@@ -61,7 +61,7 @@ Serial.println("Put the sensor in clear water to calibrate…");
 delay(2000);
 
 for (int i=0; i < n; i++){
-sensor += analogRead(A1); // read the input on analog pin 1:
+sensor += analogRead(A0); // read the input on analog pin 1:
 delay(10);
 }
 sensorValue = sensor / n;

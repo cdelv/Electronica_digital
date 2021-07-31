@@ -4,7 +4,7 @@
 
 volatile int NumPulsos;
 
-void ICACHE_RAM_ATTR ContarPulsos ()
+void ICACHE_RAM_ATTR ContarPulsos()
 { 
   NumPulsos++;  //incrementamos la variable de pulsos
 }
@@ -17,20 +17,18 @@ void sensors_set_up(void)
 
   //Pin del sensor de flujo
    pinMode(D4, INPUT);
-   attachInterrupt(digitalPinToInterrupt(D4),ContarPulsos,FALLING); //habilitar las interrupciones
+   attachInterrupt(digitalPinToInterrupt(D4),ContarPulsos,RISING); //habilitar las interrupciones
 
    //Pin del sensor de turbidez
    pinMode(A0, INPUT);
 }
 float Flujo(void)
 {
-  int frecuencia=2;
   NumPulsos = 0;   //Ponemos a 0 el número de pulsos
   interrupts();    //Habilitamos las interrupciones
   delay(1000);   //muestra de 1 segundo
   noInterrupts(); //Desabilitamos las interrupciones
-  frecuencia=NumPulsos; //Hz(pulsos por segundo)
-  return frecuencia;
+  return NumPulsos;
 }
 float Distance(int triggerPin, int echoPin)
 {
@@ -39,7 +37,7 @@ float Distance(int triggerPin, int echoPin)
 }
 float Turbidez(void)
 {
-  int n=25;
+  int n=2000;
   float sensor=0, value;
   for (int i=0; i < n; i++)
   {
@@ -47,8 +45,8 @@ float Turbidez(void)
     delay(10);
   }
   sensor/=n;
-  value = sensor;// * (5.000 / 1023.000);
-  return value;
+
+  return (sensor/200)*100;
   
 }
 float Color(void)
