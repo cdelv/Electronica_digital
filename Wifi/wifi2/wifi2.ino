@@ -1,66 +1,28 @@
-#include <WiFiServer.h>
-#include <WiFi.h>
-#include <WiFiClient.h>
-#include <WiFiUdp.h>
-
-#include <ThingSpeak.h>
-
-//#include <ESP8266WiFi.h>
-
-// ThingSpeak server data
-#define CHANNEL_ID 1459010
-#define CHANNEL_API_KEY "QH1RPZP6AG39OTN3"
-
-WiFiClient client;
-
-// WiFi client data
-#define WIFI_TIMEOUT_MS 20000
-#define WIFI_NETWORK "Casa"
-#define WIFI_PASSWORD "RaTas%KwC.1"
-
-void connectToWiFi(){
-  Serial.print("Conecting to WiFi");
-  WiFi.begin(WIFI_NETWORK, WIFI_PASSWORD);
-
-  unsigned long startAttemptTime = millis();
-
-  //keep looping while we are not connected and havent reached the time out
-  while(WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < WIFI_TIMEOUT_MS)
-  {
-    Serial.print(".");
-    delay(100);
-  }
-
-  //Make shure we are connected, otherwise go to sleep
-  if(WiFi.status()!=WL_CONNECTED)
-  {
-    Serial.print(" Failed!");
-  }
-  else
-  {
-    Serial.print(" Connected!");
-    Serial.print(WiFi.localIP());
-  }
-}
+#include "sensors.h"
+#include "wifi.h"
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
-  connectToWiFi();
-  ThingSpeak.begin(client);
+  delay(100);
+
+//Wifi set up
+  WiFi_set_up();
+  Serial.println(" WiFi connected");
+
+  //definir entradas de sensores
+   sensors_set_up();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
-  float Data=2.2;
+  float flujo=Flujo();
+  float nivel=Distance(D1, D2);
+  float turbidez=Turbidez();
+  float color=Color();
 
-//set the variables to send and to what channels
-  ThingSpeak.setField(1,Data);
-  ThingSpeak.setField(2,Data);
-  ThingSpeak.setField(3,Data);
-
-  ThingSpeak.writeFields(CHANNEL_ID, CHANNEL_API_KEY);
-
+  //WiFi_send_data(flujo, nivel, turbidez, color);
+  Serial.println(turbidez);
+  
+  Serial.println("Waiting...");
   delay(15000);
 }
