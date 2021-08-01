@@ -2,7 +2,10 @@
 #include <SPI.h>
 #include <Wire.h>
 
-volatile int NumPulsos;
+int greenFrequency = 0;
+int greenColor = 0;
+
+int NumPulsos=0;
 
 void ICACHE_RAM_ATTR ContarPulsos()
 { 
@@ -15,13 +18,27 @@ void sensors_set_up(void)
   pinMode(D1,OUTPUT);
   pinMode(D2, INPUT);
 
-  //Pin del sensor de flujo
-   pinMode(D4, INPUT);
-   attachInterrupt(digitalPinToInterrupt(D4),ContarPulsos,RISING); //habilitar las interrupciones
-
    //Pin del sensor de turbidez
    pinMode(A0, INPUT);
+
+   //Pines del sensor de color
+   pinMode(D3, OUTPUT);
+   pinMode(D4, OUTPUT);
+   pinMode(D5, OUTPUT);
+   pinMode(D6, OUTPUT);
+  
+  // Setting the sensorOut as an input
+  pinMode(D7, INPUT);
+  
+  // Setting frequency scaling to 20%
+  digitalWrite(D3,HIGH);
+  digitalWrite(D4,LOW);
+
+   //Pin del sensor de flujo
+   pinMode(D8, INPUT);
+   attachInterrupt(digitalPinToInterrupt(D8), ContarPulsos, RISING); //habilitar las interrupciones
 }
+
 float Flujo(void)
 {
   NumPulsos = 0;   //Ponemos a 0 el número de pulsos
@@ -30,14 +47,16 @@ float Flujo(void)
   noInterrupts(); //Desabilitamos las interrupciones
   return NumPulsos;
 }
+
 float Distance(int triggerPin, int echoPin)
 {
   NewPing sonar(triggerPin, echoPin, 150);
   return sonar.ping_cm();
 }
+
 float Turbidez(void)
 {
-  int n=2000;
+  int n=1000;
   float sensor=0, value;
   for (int i=0; i < n; i++)
   {
@@ -47,9 +66,22 @@ float Turbidez(void)
   sensor/=n;
 
   return (sensor/200)*100;
-  
 }
+
 float Color(void)
 {
-  return 2.5;
+  // Setting GREEN (G) filtered photodiodes to be read
+  digitalWrite(D5,HIGH);
+  digitalWrite(D6,HIGH);
+  
+  // Reading the output frequency
+  greenFrequency = pulseIn(D7, LOW);
+  // Remaping the value of the GREEN (G) frequency from 0 to 255
+  // You must replace with your own values. Here's an example: 
+  // greenColor = map(greenFrequency, 100, 199, 255, 0);
+
+  float G_MIN = 26;
+  float G_MAX = 240;
+  greenColor = map(greenFrequency, G_MIN, G_MAX, 100, 0);
+  return greenColor ;
 }

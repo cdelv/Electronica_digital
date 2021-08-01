@@ -1,28 +1,26 @@
+#include <Arduino.h>
 #include "sensors.h"
 #include "wifi.h"
 
-void setup() {
+void setup(){
   Serial.begin(9600);
-  delay(100);
-
-//Wifi set up
-  WiFi_set_up();
-  Serial.println(" WiFi connected");
+  delay(1000);
 
   //definir entradas de sensores
    sensors_set_up();
+
+ //Wifi set up
+  WiFi_set_up();
 }
 
-void loop() {
-
+void loop(){
   float flujo=Flujo();
   float nivel=Distance(D1, D2);
   float turbidez=Turbidez();
   float color=Color();
 
-  //WiFi_send_data(flujo, nivel, turbidez, color);
-  Serial.println(turbidez);
+  WiFi_send_data(flujo, nivel, turbidez, color);
+  //Serial.println(flujo);
   
-  Serial.println("Waiting...");
   delay(15000);
 }
