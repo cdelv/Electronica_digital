@@ -1,17 +1,15 @@
-#include <Arduino.h>
 #include "sensors.h"
 #include "wifi.h"
-
 
 void setup(){
   Serial.begin(9600);
   delay(1000);
 
- //Wifi set up
+  //Wifi set up
   WiFi_set_up();
   
   //definir entradas de sensores
-   sensors_set_up();
+  Sensors_set_up();
 }
 
 void loop(){

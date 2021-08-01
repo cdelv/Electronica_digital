@@ -2,17 +2,14 @@
 #include <SPI.h>
 #include <Wire.h>
 
-int greenFrequency = 0;
-int greenColor = 0;
 
 int NumPulsos=0;
-
 void ICACHE_RAM_ATTR ContarPulsos()
 { 
   NumPulsos++;  //incrementamos la variable de pulsos
 }
 
-void sensors_set_up(void)
+void Sensors_set_up(void)
 {
   //Pines del sensor de ultra sonido
   pinMode(D0,OUTPUT);
@@ -26,25 +23,21 @@ void sensors_set_up(void)
    pinMode(D4, OUTPUT);
    pinMode(D5, OUTPUT);
    pinMode(D6, OUTPUT);
-  
-  // Setting the sensorOut as an input
-  pinMode(D7, INPUT);
+   pinMode(D7, INPUT);
   
   // Setting frequency scaling to 20%
   digitalWrite(D3,HIGH);
   digitalWrite(D4,LOW);
 
-   //Pin del sensor de flujo
-   pinMode(D2, INPUT);
-   attachInterrupt(digitalPinToInterrupt(D2), ContarPulsos, RISING); //habilitar las interrupciones
+  //Pin del sensor de flujo
+  pinMode(D2, INPUT);
+  attachInterrupt(digitalPinToInterrupt(D2), ContarPulsos, RISING); //habilitar las interrupciones
 }
 
 float Flujo(void)
 {
   NumPulsos = 0;   //Ponemos a 0 el número de pulsos
- // interrupts();    //Habilitamos las interrupciones
-  delay(1000);   //muestra de 1 segundo
- // noInterrupts(); //Desabilitamos las interrupciones
+  delay(1000);    //muestra de 1 segundo
   return NumPulsos;
 }
 
@@ -70,6 +63,8 @@ float Turbidez(void)
 
 float Color(void)
 {
+  int greenFrequency = 0;
+  int greenColor = 0;
   // Setting GREEN (G) filtered photodiodes to be read
   digitalWrite(D5,HIGH);
   digitalWrite(D6,HIGH);
