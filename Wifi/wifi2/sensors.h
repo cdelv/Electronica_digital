@@ -15,8 +15,8 @@ void ICACHE_RAM_ATTR ContarPulsos()
 void sensors_set_up(void)
 {
   //Pines del sensor de ultra sonido
-  pinMode(D1,OUTPUT);
-  pinMode(D2, INPUT);
+  pinMode(D0,OUTPUT);
+  pinMode(D1, INPUT);
 
    //Pin del sensor de turbidez
    pinMode(A0, INPUT);
@@ -35,16 +35,16 @@ void sensors_set_up(void)
   digitalWrite(D4,LOW);
 
    //Pin del sensor de flujo
-   pinMode(D8, INPUT);
-   attachInterrupt(digitalPinToInterrupt(D8), ContarPulsos, RISING); //habilitar las interrupciones
+   pinMode(D2, INPUT);
+   attachInterrupt(digitalPinToInterrupt(D2), ContarPulsos, RISING); //habilitar las interrupciones
 }
 
 float Flujo(void)
 {
   NumPulsos = 0;   //Ponemos a 0 el número de pulsos
-  interrupts();    //Habilitamos las interrupciones
+ // interrupts();    //Habilitamos las interrupciones
   delay(1000);   //muestra de 1 segundo
-  noInterrupts(); //Desabilitamos las interrupciones
+ // noInterrupts(); //Desabilitamos las interrupciones
   return NumPulsos;
 }
 
@@ -65,7 +65,7 @@ float Turbidez(void)
   }
   sensor/=n;
 
-  return (sensor/200)*100;
+  return (sensor/625)*100;
 }
 
 float Color(void)
@@ -80,8 +80,8 @@ float Color(void)
   // You must replace with your own values. Here's an example: 
   // greenColor = map(greenFrequency, 100, 199, 255, 0);
 
-  float G_MIN = 26;
-  float G_MAX = 240;
+  float G_MIN = 30;
+  float G_MAX = 250;
   greenColor = map(greenFrequency, G_MIN, G_MAX, 100, 0);
   return greenColor ;
 }
