@@ -78,7 +78,7 @@ float Color(void)
   // You must replace with your own values. Here's an example: 
   // greenColor = map(greenFrequency, 100, 199, 255, 0);
 
-  float G_MIN = 39;
+  float G_MIN = 25;
   float G_MAX = 400;
   greenColor = map(greenFrequency, G_MIN, G_MAX, 100, 0);
   return greenColor ;
