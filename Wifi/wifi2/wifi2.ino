@@ -20,5 +20,5 @@ void loop(){
 
   WiFi_send_data(flujo, nivel, turbidez, color);
   
-  delay(1500);
+  delay(60000);
 }

@@ -38,7 +38,8 @@ float Flujo(void)
 {
   NumPulsos = 0;   //Ponemos a 0 el número de pulsos
   delay(1000);    //muestra de 1 segundo
-  return (NumPulsos/46)*100;
+  float value = NumPulsos;
+  return (value/45)*100;
 }
 
 float Distance(int triggerPin, int echoPin)
@@ -50,7 +51,7 @@ float Distance(int triggerPin, int echoPin)
 
 float Turbidez(void)
 {
-  int n=1000;
+  int n=2500;
   float sensor=0, value;
   for (int i=0; i < n; i++)
   {
@@ -59,7 +60,7 @@ float Turbidez(void)
   }
   sensor/=n;
 
-  return (sensor/720)*100;
+  return (sensor/790)*100;
   //return sensor;
 }
 
