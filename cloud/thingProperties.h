@@ -4,7 +4,7 @@
 
 
 const char THING_ID[]           = "38bef95f-4481-4502-8a19-f9dbf18584e6";
-const char DEVICE_LOGIN_NAME[]  = "1e2d7f64-fd7e-46b0-858b-f4a422f723b6";
+const char DEVICE_LOGIN_NAME[]  = "d711de5f-96eb-4b45-83d5-29d7c9379faf";
 
 const char SSID[]               = SECRET_SSID;    // Network SSID (name)
 const char PASS[]               = SECRET_PASS;    // Network password (use for WPA, or use as key for WEP)

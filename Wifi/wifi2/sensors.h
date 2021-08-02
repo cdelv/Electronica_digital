@@ -38,13 +38,14 @@ float Flujo(void)
 {
   NumPulsos = 0;   //Ponemos a 0 el número de pulsos
   delay(1000);    //muestra de 1 segundo
-  return NumPulsos;
+  return (NumPulsos/46)*100;
 }
 
 float Distance(int triggerPin, int echoPin)
 {
   NewPing sonar(triggerPin, echoPin, 150);
-  return sonar.ping_cm();
+  float value = map(sonar.ping_cm(), 3, 44, 100, 0);
+  return value;
 }
 
 float Turbidez(void)
@@ -58,7 +59,8 @@ float Turbidez(void)
   }
   sensor/=n;
 
-  return (sensor/625)*100;
+  return (sensor/720)*100;
+  //return sensor;
 }
 
 float Color(void)
@@ -75,8 +77,9 @@ float Color(void)
   // You must replace with your own values. Here's an example: 
   // greenColor = map(greenFrequency, 100, 199, 255, 0);
 
-  float G_MIN = 30;
-  float G_MAX = 250;
+  float G_MIN = 39;
+  float G_MAX = 400;
   greenColor = map(greenFrequency, G_MIN, G_MAX, 100, 0);
   return greenColor ;
+  //return greenFrequency;
 }
